@@ -1,0 +1,23 @@
+body {
+    align-content: center;
+    text-align: center;
+}
+
+.container {
+    margin-top: 3%;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 36px;
+    font-weight: 300;
+}
+
+p {
+    font-size: 20px;
+    font-weight: 50;
+}

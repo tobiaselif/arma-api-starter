@@ -1,0 +1,403 @@
+openapi: 3.0.0
+info:
+  title: Arma API
+  description: "This is the documentation page for the unofficial [Arma REST API](https://github.com/M-Davies/arma-api).\
+    \ Please see the examples below on how to use this application.\n"
+  contact:
+    email: morgandavies2020@gmail.com
+  license:
+    name: GNU General Public License v3.0
+    url: https://github.com/M-Davies/arma-api/blob/master/LICENSE
+  version: 1.0.0
+servers:
+- url: https://unofficial-arma-api.herokuapp.com
+  description: Production heroku server
+- url: https://virtserver.swaggerhub.com/M_Davies/arma-api/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: classes
+  externalDocs:
+    description: More about configs
+    url: https://community.bistudio.com/wiki/Arma_3:_Characters_And_Gear_Encoding_Guide
+paths:
+  /classes/:
+    get:
+      tags:
+      - classes
+      summary: Retrieves all config class objects
+      operationId: allClasses
+      parameters:
+      - name: type
+        in: query
+        description: Type to filter the results by
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - Primaries
+          - Secondaries
+          - Launchers
+          - Throwables
+          - Explosives
+          - Muzzles
+          - Pointers
+          - Optics
+          - Bipods
+          - Tools
+          - Terminals
+          - Maps
+          - GPSs
+          - Radios
+          - Compasses
+          - Watches
+          - Facewear
+          - Headgear
+          - Goggles
+          - Binoculars
+          - Magazines
+          - Uniforms
+          - Vests
+          - Backpacks
+      - name: page
+        in: query
+        description: Pagination page number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 0
+          default: 0
+      - name: size
+        in: query
+        description: "Pagination maximum page size, -1 means that there is no size\
+          \ limit"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: -1
+          default: -1
+      responses:
+        "200":
+          description: "Successful request, returns jsonarray of matching classes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiResponse'
+        "404":
+          description: Invalid parameters or error occured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorApiResponse'
+  /classes/{mod}:
+    get:
+      tags:
+      - classes
+      summary: Retrieves all config class objects filtered by the mod
+      operationId: allClassesByMod
+      parameters:
+      - name: mod
+        in: path
+        description: Mod to filter the results by
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - vanilla
+          - ace
+          - 3cb
+          - rhs
+          - niarms
+          - tacvests
+          - tryk
+          - vsm
+          - rksl
+          - acre
+          - projectopfor
+          - immersioncigs
+      - name: type
+        in: query
+        description: Type to filter the results by
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - Primaries
+          - Secondaries
+          - Launchers
+          - Throwables
+          - Explosives
+          - Muzzles
+          - Pointers
+          - Optics
+          - Bipods
+          - Tools
+          - Terminals
+          - Maps
+          - GPSs
+          - Radios
+          - Compasses
+          - Watches
+          - Facewear
+          - Headgear
+          - Goggles
+          - Binoculars
+          - Magazines
+          - Uniforms
+          - Vests
+          - Backpacks
+      - name: page
+        in: query
+        description: Pagination page number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 0
+          default: 0
+      - name: size
+        in: query
+        description: "Pagination maximum page size, -1 means that there is no size\
+          \ limit"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: -1
+          default: -1
+      responses:
+        "200":
+          description: "Successful request, returns jsonarray of matching classes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiResponse'
+        "404":
+          description: Invalid parameters or error occured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorApiResponse'
+  /classes/search/{term}:
+    get:
+      tags:
+      - classes
+      summary: Find classes by search term
+      operationId: allClassesByTerm
+      parameters:
+      - name: term
+        in: path
+        description: Search term
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: ak47
+      - name: page
+        in: query
+        description: Pagination page number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 0
+          default: 0
+      - name: size
+        in: query
+        description: "Pagination maximum page size, -1 means that there is no size\
+          \ limit"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: -1
+          default: -1
+      responses:
+        "200":
+          description: "Successful operation, returns jsonarray of matching classes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiResponse'
+        "404":
+          description: Invalid search term or server error occured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorApiResponse'
+components:
+  schemas:
+    Config:
+      required:
+      - _id
+      - class
+      - name
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique Object ID
+          example: 507f191e810c19729de860ea
+        class:
+          type: string
+          description: Class name
+          example: rhs_AK74_GL_Name
+        name:
+          type: string
+          description: Display name
+          example: AK74 GL
+        image:
+          type: string
+          description: Relative path to display image
+          example: a3/location/ak74_gl.paa
+        magazines:
+          type: array
+          description: Accepted magazine classes
+          example:
+          - 3CB_AK47_30rnd_ammo
+          - 3CB_AK74_30rnd_ammo
+          items:
+            type: string
+        magwell:
+          type: array
+          description: Accepted magazines in well
+          example:
+          - AK
+          - VOG25
+          items:
+            type: string
+        type:
+          type: string
+          description: Config type
+          example: Primaries
+        subtype:
+          type: string
+          description: "Item subtype based on [BIS_fnc_itemType](https://community.bistudio.com/wiki/BIS_fnc_itemType)"
+          example: MissileLauncher
+        mod:
+          type: string
+          description: Config mod owner
+          example: RedHammerStudios
+        weight:
+          type: integer
+          description: Weight of item (kg)
+          example: 10
+        ammo:
+          type: string
+          description: Accepted ammo class
+          example: rhs_7.62_x51mm_round
+        count:
+          type: integer
+          description: Size of magazine
+          example: 30
+      xml:
+        name: Config
+    SuccessfulApiResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Config'
+    ErrorApiResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 404
+        timestamp:
+          type: string
+          example: 2007-12-03T10:15:30
+        error:
+          type: string
+          example: "Unidentified mod. Available values are [ace, vanilla]"
+  parameters:
+    mod:
+      name: mod
+      in: path
+      description: Mod to filter the results by
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+        enum:
+        - vanilla
+        - ace
+        - 3cb
+        - rhs
+        - niarms
+        - tacvests
+        - tryk
+        - vsm
+        - rksl
+        - acre
+        - projectopfor
+        - immersioncigs
+    type:
+      name: type
+      in: query
+      description: Type to filter the results by
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+        enum:
+        - Primaries
+        - Secondaries
+        - Launchers
+        - Throwables
+        - Explosives
+        - Muzzles
+        - Pointers
+        - Optics
+        - Bipods
+        - Tools
+        - Terminals
+        - Maps
+        - GPSs
+        - Radios
+        - Compasses
+        - Watches
+        - Facewear
+        - Headgear
+        - Goggles
+        - Binoculars
+        - Magazines
+        - Uniforms
+        - Vests
+        - Backpacks
+    page:
+      name: page
+      in: query
+      description: Pagination page number
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+        example: 0
+        default: 0
+    size:
+      name: size
+      in: query
+      description: "Pagination maximum page size, -1 means that there is no size limit"
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+        example: -1
+        default: -1

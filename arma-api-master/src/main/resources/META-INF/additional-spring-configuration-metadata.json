@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "config.MONGO_URI",
+      "type": "java.lang.String",
+      "defaultValue": "mongodb://localhost:27017",
+      "description": "Mongo Uri Connection String, following the format of mongodb://username:password@hostname:port or a cloud provider URI format such as Mongo Atlas. Username/password can be ommited. Defaults to environment variable MONGO_URL or to mongodb://localhost:27017 if that is unset."
+    },
+    {
+      "name": "config.MONGO_DATABASE",
+      "type": "java.lang.String",
+      "defaultValue": "arma-api",
+      "description": "Name of the mongo database to be created. Defaults to environment variable MONGO_DATABASE or to arma-api if that is unset."
+    },
+    {
+      "name": "config.LOGFILE_PATH",
+      "type": "java.lang.String",
+      "defaultValue": "/tmp/arma-api.log",
+      "description": "Full path to log file containing query reports and other fun stuff. Defaults to environment variable LOGFILE_PATH or to /tmp/arma-api.log if that is unset."
+    },
+    {
+      "name": "config.SUPPORTED_MODS",
+      "type": "java.lang.String",
+      "defaultValue": "vanilla,ace,3cb,rhs,niarms,tacvests,tryk,vsm,rksl,acre,projectopfor,immersioncigs",
+      "description": "ArrayList of mod authors that you wish to appear as modnames in the database. Environment variable access not supported right now. Check src/main/java/com/api/main/Config.java:MODS for the defaults."
+    }
+  ]
+}
